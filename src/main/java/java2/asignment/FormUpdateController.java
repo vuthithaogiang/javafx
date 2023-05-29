@@ -14,10 +14,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
+
 import static java2.asignment.ListController.*;
 
 
 public class FormUpdateController  implements Initializable {
+
+
+
     @FXML
     private TextField txtClassRoom;
 
@@ -45,7 +50,7 @@ public class FormUpdateController  implements Initializable {
 
             txtName.setText(updateClassRoom.getName());
             txtClassRoom.setText(updateClassRoom.getClassRoom());
-            txtSchoolYear.setText(String.valueOf(updateClassRoom.getYearSchool()));
+            txtSchoolYear.setText(String.valueOf(updateClassRoom.getSchoolYear()));
         }
         else{
             System.out.println("is null");
@@ -62,7 +67,7 @@ public class FormUpdateController  implements Initializable {
 
               upClass.setName(name);
               upClass.setClassRoom(classRoom);
-              upClass.setYearSchool(schoolYear);
+              upClass.setSchoolYear(schoolYear);
 
              System.out.println(listClassRoom.get(index).getName());
 

@@ -9,7 +9,7 @@ public class ClassRoom {
 
     private String classRoom;
 
-    private int yearSchool;
+    private int schoolYear;
 
     public ClassRoom() {
 
@@ -18,7 +18,7 @@ public class ClassRoom {
     public ClassRoom(String name, String classRoom, int yearSchool) throws Exception{
         this.name = name;
         this.classRoom = classRoom;
-        this.setYearSchool(yearSchool);
+        this.setSchoolYear(yearSchool);
     }
 
     public String getName() {
@@ -37,17 +37,17 @@ public class ClassRoom {
         this.classRoom = classRoom;
     }
 
-    public int getYearSchool() {
-        return yearSchool;
+    public int getSchoolYear() {
+        return schoolYear;
     }
 
-    public void setYearSchool(int yearSchool) {
-        if(yearSchool >= 2000 && yearSchool <= 2023){
-            this.yearSchool = yearSchool;
+    public void setSchoolYear(int schoolYear) {
+        if(schoolYear >= 2000 && schoolYear <= 2023){
+            this.schoolYear = schoolYear;
         }
         else{
             LocalDate today = LocalDate.now();
-           this.yearSchool = today.getYear();
+           this.schoolYear = today.getYear();
         }
     }
 }

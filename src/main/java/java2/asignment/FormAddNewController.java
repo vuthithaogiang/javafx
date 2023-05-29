@@ -39,7 +39,7 @@ public class FormAddNewController {
 
 
            for(ClassRoom c : listClassRoom){
-               if(c.getName().equals(name) && c.getClassRoom().equals(classRoom) && c.getYearSchool() == schoolYear){
+               if(c.getName().equals(name) && c.getClassRoom().equals(classRoom) && c.getSchoolYear() == schoolYear){
                    throw new Exception("This class is existed!!!");
                }
 

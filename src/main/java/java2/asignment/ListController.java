@@ -19,7 +19,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import java.sql.*;
+
 public class ListController implements Initializable {
+
+    private Connection connect;
+
+    private PreparedStatement prepare;
+
+    private Statement statement;
+
+    private ResultSet result;
+
+
    public static ObservableList<ClassRoom> listClassRoom = FXCollections.observableArrayList();
 
     @FXML
@@ -35,6 +47,56 @@ public class ListController implements Initializable {
 
 
     public static ClassRoom updateClassRoom;
+
+    public Connection connectDb() {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            connect = DriverManager.getConnection("jdbc:mysql://localhost:3307/classinfo",
+                    "root", "");
+
+            System.out.println("Connect successfully!");
+
+            return connect;
+        }
+        catch(Exception e){
+            System.out.println("Connect failed!!");
+        }
+
+        return null;
+    }
+
+
+
+    public ObservableList<ClassRoom> dataList() {
+
+        connect = connectDb();
+        ObservableList<ClassRoom> dataList = FXCollections.observableArrayList();
+
+        String sql = "SELECT * FROM classinfo";
+
+        try{
+
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ClassRoom classRoom;
+
+            while (result.next()){
+                classRoom = new ClassRoom(result.getString(1),
+                        result.getString(2),
+                        result.getInt(3));
+
+                dataList.add(classRoom);
+            }
+        }
+        catch (Exception e){
+
+        }
+
+        return dataList;
+
+    }
 
     @FXML
     void goToUpdateInfoClass(MouseEvent event) throws IOException {
@@ -73,11 +135,15 @@ public class ListController implements Initializable {
     }
 
     public void showClass(){
+        ObservableList<ClassRoom> showList = dataList();
+
        col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
        col_classRoom.setCellValueFactory(new PropertyValueFactory<>("classRoom"));
-       col_schoolYear.setCellValueFactory(new PropertyValueFactory<>("yearSchool"));
+       col_schoolYear.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
 
-       table_view.setItems(listClassRoom);
+        System.out.println(showList.size());
+
+       table_view.setItems(showList);
 
     }
 
@@ -85,7 +151,7 @@ public class ListController implements Initializable {
         for(var c : list){
             if(c.getName().compareTo(classRoom.getName()) == 0
             && c.getClassRoom().compareTo(classRoom.getClassRoom()) == 0
-            && c.getYearSchool() == classRoom.getYearSchool()) {
+            && c.getSchoolYear() == classRoom.getSchoolYear()) {
                 return list.indexOf(c);
             }
         }
@@ -95,7 +161,7 @@ public class ListController implements Initializable {
 
  @Override
  public void initialize(URL url, ResourceBundle resourceBundle) {
-     table_view.setItems(listClassRoom);
+
      showClass();
  }
 }
