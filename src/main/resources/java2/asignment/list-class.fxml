@@ -2,18 +2,22 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0"
-            fx:controller="java2.asignment.ListController"
-            xmlns="http://javafx.com/javafx/8.0.5" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.5" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java2.asignment.ListController">
     <children>
-        <TableView onMouseClicked="#goToUpdateInfoClass" fx:id="table_view" layoutX="74.0" layoutY="100.0" prefHeight="200.0" prefWidth="461.0">
+        <TableView fx:id="table_view" layoutX="74.0" layoutY="100.0" onMouseClicked="#goToUpdateInfoClass" prefHeight="200.0" prefWidth="461.0">
             <columns>
                 <TableColumn fx:id="col_name" prefWidth="148.0" text="Name " />
                 <TableColumn fx:id="col_classRoom" prefWidth="145.0" text="Class Room" />
@@ -25,6 +29,23 @@
                 <Font name="Calibri" size="36.0" />
             </font>
         </Label>
-        <Button onAction="#goToAddNewClass" layoutX="469.0" layoutY="335.0" mnemonicParsing="false" text="Add new" />
+        <Button layoutX="469.0" layoutY="335.0" mnemonicParsing="false" onAction="#goToAddNewClass" text="Add new" />
+      <HBox layoutX="421.0" layoutY="42.0" prefHeight="25.0" prefWidth="63.0">
+         <children>
+            <HBox prefHeight="25.0" prefWidth="51.0" />
+         </children>
+      </HBox>
+      <MenuBar fx:id="fileMenu" accessibleRole="BUTTON" layoutX="442.0" layoutY="30.0" prefHeight="25.0" prefWidth="85.0">
+        <menus>
+          <Menu mnemonicParsing="false" text=" Save File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                <SeparatorMenuItem mnemonicParsing="false" />
+                <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Exit" />
+                
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
     </children>
 </AnchorPane>

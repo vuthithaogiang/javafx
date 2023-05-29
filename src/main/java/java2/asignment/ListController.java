@@ -8,11 +8,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,7 +46,8 @@ public class ListController implements Initializable {
     @FXML
     private   TableColumn<ClassRoom, Integer> col_schoolYear;
 
-
+    @FXML
+    private MenuBar fileMenu;
     public static ClassRoom updateClassRoom;
 
     public static   Connection connectDb() {
@@ -103,7 +109,8 @@ public class ListController implements Initializable {
             int num = table_view.getSelectionModel().getSelectedIndex();
 
             if (num - 1 < -1) {
-                throw new Exception("Click class failed!");
+
+                return ;
 
             }
             updateClassRoom = classRoom;
@@ -165,8 +172,60 @@ public class ListController implements Initializable {
         return  -1;
     }
 
+    public void handleSave(ActionEvent actionEvent){
+        Stage secondaryStage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save file Class room Table");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        if(dataList().isEmpty()) {
+            secondaryStage.initOwner(this.fileMenu.getScene().getWindow());
+            Alert alter = new Alert(Alert.AlertType.ERROR, "EMPTY Table", ButtonType.OK);
 
- @Override
+            alter.setContentText("You have nothing to save");
+            alter.initModality(Modality.APPLICATION_MODAL);
+            alter.initOwner(this.fileMenu.getScene().getWindow());
+            alter.showAndWait();
+
+            if(alter.getResult() == ButtonType.OK){
+                alter.close();
+            }
+        }
+        else{
+            File file = fileChooser.showSaveDialog(secondaryStage);
+            if(file != null){
+                saveFile(table_view.getItems(), file);
+            }
+        }
+
+    }
+
+    public void saveFile(ObservableList<ClassRoom> observableList, File file){
+        try{
+            BufferedWriter outWriter = new BufferedWriter(new FileWriter(file));
+
+            for(ClassRoom classRoom : observableList){
+                outWriter.write(classRoom.toString());
+                outWriter.newLine();
+            }
+
+            outWriter.close();
+
+        }
+        catch (IOException e){
+            Alert alter = new Alert(Alert.AlertType.ERROR, "OOPS!", ButtonType.OK);
+            alter.setContentText("Sorry. An error has occurred.");
+            alter.showAndWait();
+
+            if(alter.getResult() == ButtonType.OK){
+                alter.close();
+            }
+        }
+    }
+
+   public void closeApp(ActionEvent actionEvent){
+
+   }
+    @Override
  public void initialize(URL url, ResourceBundle resourceBundle) {
 
      showClass();

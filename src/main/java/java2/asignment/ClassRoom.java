@@ -50,4 +50,8 @@ public class ClassRoom {
            this.schoolYear = today.getYear();
         }
     }
+
+    public  String toString() {
+        return this.name + " " + this.classRoom + " " + this.schoolYear;
+    }
 }
