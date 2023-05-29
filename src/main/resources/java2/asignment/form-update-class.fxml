@@ -8,7 +8,7 @@
 
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.5"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="java2.asignment.FormUpdateController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="java2.asignment.UpdateController">
    <children>
       <TextField fx:id="txtName" layoutX="127.0" layoutY="127.0" prefHeight="38.0" prefWidth="392.0" promptText="Name" />
       <TextField fx:id="txtClassRoom" layoutX="127.0" layoutY="191.0" prefHeight="38.0" prefWidth="392.0" promptText="Class Room" />

@@ -13,8 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +21,7 @@ import java.sql.*;
 
 public class ListController implements Initializable {
 
-    private Connection connect;
+    private static Connection connect;
 
     private PreparedStatement prepare;
 
@@ -32,23 +30,21 @@ public class ListController implements Initializable {
     private ResultSet result;
 
 
-   public static ObservableList<ClassRoom> listClassRoom = FXCollections.observableArrayList();
-
     @FXML
     private  TableView<ClassRoom> table_view;
     @FXML
-    private TableColumn<ClassRoom, String> col_classRoom;
+    private  TableColumn<ClassRoom, String> col_classRoom;
 
     @FXML
-    private TableColumn<ClassRoom, String> col_name;
+    private  TableColumn<ClassRoom, String> col_name;
 
     @FXML
-    private TableColumn<ClassRoom, Integer> col_schoolYear;
+    private   TableColumn<ClassRoom, Integer> col_schoolYear;
 
 
     public static ClassRoom updateClassRoom;
 
-    public Connection connectDb() {
+    public static   Connection connectDb() {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -68,7 +64,7 @@ public class ListController implements Initializable {
 
 
 
-    public ObservableList<ClassRoom> dataList() {
+    public  ObservableList<ClassRoom> dataList() {
 
         connect = connectDb();
         ObservableList<ClassRoom> dataList = FXCollections.observableArrayList();
@@ -83,9 +79,9 @@ public class ListController implements Initializable {
             ClassRoom classRoom;
 
             while (result.next()){
-                classRoom = new ClassRoom(result.getString(1),
-                        result.getString(2),
-                        result.getInt(3));
+                classRoom = new ClassRoom(result.getString("name"),
+                        result.getString("classRoom"),
+                        result.getInt("schoolYear"));
 
                 dataList.add(classRoom);
             }
@@ -134,18 +130,29 @@ public class ListController implements Initializable {
 
     }
 
+
+
     public void showClass(){
         ObservableList<ClassRoom> showList = dataList();
 
-       col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-       col_classRoom.setCellValueFactory(new PropertyValueFactory<>("classRoom"));
-       col_schoolYear.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
+       try {
+            col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+            col_classRoom.setCellValueFactory(new PropertyValueFactory<>("classRoom"));
+            col_schoolYear.setCellValueFactory(new PropertyValueFactory<>("schoolYear"));
 
-        System.out.println(showList.size());
+            System.out.println(showList.size());
 
-       table_view.setItems(showList);
+            table_view.setItems(showList);
+        }
+       catch (Exception e){
+
+       }
 
     }
+
+
+
+
 
     public static int findClassRoom(ObservableList<ClassRoom> list, ClassRoom classRoom){
         for(var c : list){
